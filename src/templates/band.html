@@ -1,0 +1,28 @@
+<!---- Each band gets its own page. -->
+<html>
+  <head>
+    <title>{{ artist[1] }} -- Noise Archives</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bandpage.css') }}">
+  </head>
+  </body>
+  <body>
+    <div class="sidenav">
+      <p id="sidenav-info">Noise Archives</p>
+      <a href="/make_band">Submit a band</a>
+    </div>
+
+    <div class="main">
+      <div id="information">
+        <h2>{{artist[1]}}</h2>
+        <ul>
+          <li>Formed in {{artist[2]}}</li>
+          <li>Genre: {{artist[4]}}</li>
+        </ul>
+      </div>
+      <div id="discography">
+        <h2>Discography</h2>
+          <a id="albumadd" href="/addalbum.html">Add an album</a>
+      </div>
+    </div>
+  </body>
+</html>
