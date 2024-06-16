@@ -2,18 +2,30 @@
 <html>
   <head>
     <title>Add an artist/band</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/submit-band.css') }}">
   </head>
   <body>
-    <form method="POST">
-      <label>Band name:</label>
-      <input type="name" name="bandname" placeholder="..."><br>
-      <label>Year formed:</label>
-      <input type="name" name="formed" placeholder="..."><br>
-      <label>When did they split up?:</label>
-      <input type="name" name="splitup" placeholder="(optional)"><br>
-      <label>Genre they play:</label>
-      <input type="name" name="genre" placeholder="..."><br><br>
+    <div class="sidenav">
+      <p id="sidenav-info">Noise Archives</p>
+      <a href="/make_band">Submit a band</a>
+      <a href="/showbands">Show all bands</a>
+    </div>
 
-      <input type="submit" value="submit"/><br>
-    </form>
+    <div class="main">
+      <h1>Submit A Band</h1>
+      <div id="form">
+      <form method="POST">
+         <label>Band name:</label>
+          <input type="name" name="bandname" placeholder="..."><br>
+          <label>Year formed:</label>
+          <input type="name" name="formed" placeholder="..."><br>
+          <label>When did they split up?:</label>
+          <input type="name" name="splitup" placeholder="(optional)"><br>
+          <label>Genre they play:</label>
+          <input type="name" name="genre" placeholder="..."><br><br>
+
+          <input id="submit-button" type="submit" value="submit"/><br>
+       </form>
+      </div>
+    </div>
 </html>
