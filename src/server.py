@@ -46,6 +46,12 @@ def showbands():
     data = cursor.fetchall()
     return render_template('bands.html', data=data)
 
+
+# Index route
+@app.route('/')
+def index_route():
+    return render_template('index.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
 
