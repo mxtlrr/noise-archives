@@ -9,7 +9,7 @@ CREATE TABLE artist (
 /* Album */
 CREATE TABLE album (
   ID          INTEGER     PRIMARY KEY AUTOINCREMENT,
-  ARTIST_NAME INTEGER                      NOT NULL,
+  ARTIST_ID   INTEGER                      NOT NULL, /* Disgusting.   */
   ALBUM_NAME  TEXT                         NOT NULL, /* Album name    */
   YEAR        INTEGER                      NOT NULL  /* Year released */
 );

@@ -21,7 +21,13 @@
       </div>
       <div id="discography">
         <h2>Discography</h2>
+        <ul>
+        {% for album in albums %}
+            <li>{{ album[2] }} - Released {{ album[3] }}</li>
+        {% endfor %}
+        </ul>
         <a id="albumadd" href="/addalbum?id={{artist[0]}}">Add an album</a>
+
       </div>
     </div>
   </body>

@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 import sqlite3
 
 app = Flask(__name__)
 db_name = 'narchives.db'
-
+app.secret_key = open("../.env").read().replace('\n','')
+print(app.secret_key)
 
 supported_genres = [
     "noisecore",
@@ -13,6 +14,8 @@ supported_genres = [
 ]
 
 # Each band gets it's own page, e.g. /band?id=2
+data = ""
+global_data = {}
 @app.route('/band')
 def get_band():
     artist_id = request.args.get('id')
@@ -23,11 +26,17 @@ def get_band():
     cursor = connect.cursor()
     cursor.execute(f'SELECT * FROM artist WHERE ID={artist_id}')
 
-    data = cursor.fetchall()
+    _d2ata = cursor.fetchall()
 
     # get albums
+    cursor = connect.cursor()
+    band_id = session['id']
+
+    cursor.execute(f'SELECT * FROM album WHERE ARTIST_ID={band_id}')
+    album_data = cursor.fetchall()
+
     try:
-        return render_template('band.html', artist=data[0])
+        return render_template('band.html', artist=_d2ata[0], albums=album_data)
     except:
         return "WTF??? Index error or some shit I don't know why it fucked up", 400
 
@@ -69,36 +78,42 @@ def showbands():
     return render_template('bands.html', data=data)
 
 
-data = ""
 @app.route('/addalbum', methods=['POST', 'GET'])
 def albumadd():
-    bandid = 0
     if request.method == 'GET':
         bandid = request.args.get('id')
-        print(f"Band id is {bandid}")
+        if bandid:
+            session['id'] = bandid
+        else:
+            return "Can't get session ID", 400
 
         # Retrieve data so we can form our POST request
+        bandid_cool = session['id']
         with sqlite3.connect(db_name) as db:
             cur = db.cursor()
-            cur.execute(f"SELECT NAME FROM artist WHERE ID={bandid}")
+            cur.execute(f"SELECT NAME FROM artist WHERE ID={bandid_cool}")
             global data
             data = cur.fetchone()[0]
             db.commit()
 
         return render_template('create-album.html')
     elif request.method == 'POST':
-        print(data)
         album_name   = request.form['albumname']
         release_year = request.form['released']
 
-        print(f"Album '{album_name}' was released in '{release_year}' by {data}")
+        bandiddd = session.get('id')
+        if bandiddd is None:
+            return "I couldn't get band ID from Session!", 400
+        
+        print(f"Album '{album_name}' was released in '{release_year}' by {bandiddd}")
         with sqlite3.connect(db_name) as db:
             cur = db.cursor()
-            cur.execute("INSERT INTO album (ARTIST_NAME, ALBUM_NAME, YEAR) VALUES (?,?,?)",
-                        (data, album_name, release_year))
+            cur.execute("INSERT INTO album (ARTIST_ID, ALBUM_NAME, YEAR) VALUES (?,?,?)",
+                        (bandiddd, album_name, release_year))
             db.commit()
+
         print("DB added")
-        return redirect(url_for('get_band', id=bandid+1))
+        return redirect(url_for('get_band', id=bandiddd))
 # Index route
 @app.route('/')
 def index_route():
