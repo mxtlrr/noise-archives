@@ -9,9 +9,7 @@ CREATE TABLE artist (
 /* Album */
 CREATE TABLE album (
   ID          INTEGER     PRIMARY KEY AUTOINCREMENT,
-  ARTIST_ID   INTEGER                      NOT NULL,
+  ARTIST_NAME INTEGER                      NOT NULL,
   ALBUM_NAME  TEXT                         NOT NULL, /* Album name    */
-  YEAR        INTEGER                      NOT NULL, /* Year released */
-
-  FOREIGN KEY (ARTIST_ID) REFERENCES artist(ARTIST_ID)
+  YEAR        INTEGER                      NOT NULL  /* Year released */
 );

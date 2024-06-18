@@ -65,3 +65,12 @@ label,h1,p,a {
   font-size: 20px;
 }
 
+ul {
+  list-style: none;
+}
+
+li:before {
+  content: "+";
+  padding-right: 5px;
+}
+

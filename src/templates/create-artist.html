@@ -27,5 +27,14 @@
           <input id="submit-button" type="submit" value="submit"/><br>
        </form>
       </div>
+
+      <div id="supported-genres">
+        <br>
+        <p>The following subgenres are supported:</p>
+        <ul>
+          {% for genre in genres %}
+          <li>{{genre}}</li>
+          {% endfor %}
+        </ul>
     </div>
 </html>
