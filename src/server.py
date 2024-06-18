@@ -64,7 +64,15 @@ def index():
                         (bandname, formed, split_up, genre))
             band.commit()
 
-        return render_template("added-band.html")
+        # Now we also need to get the bandid, since it's already
+        # created. We can look through the DB and get the id.
+        connect = sqlite3.connect(db_name)
+        cursor = connect.cursor()
+        cursor.execute(f'SELECT ID FROM artist WHERE NAME=\'{bandname}\'')
+
+        dtestata = cursor.fetchone()[0]
+        print(f"Band id -> {dtestata}")
+        return redirect(url_for('get_band', id=dtestata))
     else:
         return render_template("create-artist.html", genres=supported_genres)
 
